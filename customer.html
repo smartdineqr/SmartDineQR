@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#087f6b"><title>Order Food | SmartDine QR</title><link rel="stylesheet" href="phase2.css"></head>
+<body>
+<header class="top"><div class="top-in"><div class="brand"><span class="brand-mark">S</span><span>SmartDine <b>QR</b><small>Table ordering</small></span></div><span class="badge">QR Menu</span></div></header>
+<main class="wrap">
+ <section id="intro" class="hero" hidden><div class="row between wrap-row"><div><div class="eyebrow" style="color:#d5f8ef">Welcome to</div><h1 id="restaurant-name" class="headline">Restaurant</h1><p id="restaurant-tagline" class="muted"></p></div><span class="badge" id="table-number">Table</span></div></section>
+ <div id="message" class="notice" role="status">তোমার টেবিলের QR Code স্ক্যান করে Menu খোলো।</div>
+ <section id="catalog" hidden><div class="row between wrap-row"><h2>Food Menu</h2><span id="item-count" class="muted small"></span></div><div id="categories" class="chips" aria-label="Menu categories"></div><div id="food-list" class="item-grid"></div><p class="note">🧪 এটি Testing Version। এখানে কোনো Online Payment নেওয়া হচ্ছে না। QR বাইরে থেকে ব্যবহার করে অর্ডার দেওয়া সম্ভব; বাস্তবে ব্যবহার করার আগে Table Verification যোগ করতে হবে।</p></section>
+ <section id="cart-panel" class="panel top-space" hidden><h2>Your Cart</h2><div id="cart-items"></div><div class="row between" style="margin:12px 0"><strong>Total</strong><span class="price" id="cart-total">₹0</span></div><button type="button" id="place-order" class="btn primary block">Place Demo Order</button><p class="muted small">খাবারের চূড়ান্ত দাম Server যাচাই করবে। বিলে Tax/Service Charge এখন যোগ করা হয়নি।</p></section>
+ <section id="confirmation" class="panel top-space" hidden><h2>✅ Order Submitted</h2><p>তোমার Demo Order রেস্টুরেন্টে পাঠানো হয়েছে।</p><p><strong>Order ID:</strong> <span id="order-id"></span></p><p><strong>Amount due (unpaid):</strong> <span id="order-total"></span></p><p class="muted small">Staff Cash Received নিশ্চিত করলে তবেই Paid হবে। এটি Online Payment নয়।</p><button id="new-order" class="btn">Back to Menu</button></section>
+</main>
+<div class="cartbar no-print" id="cartbar" hidden><div class="inside"><div><strong id="cart-count">0 items</strong><div class="price" id="bar-total">₹0</div></div><button class="btn primary" id="view-cart">View Cart →</button></div></div>
+<footer class="footer">SmartDine QR — Test ordering only</footer>
+<script src="supabase-config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="common.js"></script><script src="customer.js"></script>
+</body></html>
