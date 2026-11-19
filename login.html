@@ -1,0 +1,27 @@
+<!doctype html><html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d1d2b"><title>Owner Login | SmartDine QR</title>
+<link rel="stylesheet" href="portal.css"></head>
+<body class="auth-page">
+<main class="auth-shell">
+ <div class="brand"><span class="brand-mark">S</span><span>SmartDine <strong>QR</strong><small>Restaurant management</small></span></div>
+ <section class="panel auth-card">
+  <p class="eyebrow">Restaurant owner portal</p>
+  <h1 id="form-title">Welcome back</h1>
+  <p id="form-intro" class="muted">নিজের রেস্টুরেন্টের তথ্য দেখতে Login করো।</p>
+  <div class="tabs" role="group" aria-label="Account options"><button type="button" id="tab-login" class="selected">Login</button><button type="button" id="tab-signup">Create account</button></div>
+  <div id="message" class="message" role="status" hidden></div>
+  <form id="auth-form">
+   <label for="email">Email ID</label><input id="email" type="email" autocomplete="email" placeholder="owner@example.com" required>
+   <label for="password" id="password-label">Password</label><div class="password-row"><input id="password" type="password" autocomplete="current-password" minlength="8" placeholder="At least 8 characters" required><button class="peek" type="button" id="toggle-password" aria-label="Show password">Show</button></div>
+   <button class="button primary full" type="submit" id="submit-auth">Login securely</button>
+  </form>
+  <button type="button" id="forgot-password" class="link-button">Forgot password?</button>
+  <p class="fineprint">Password GitHub-এ বা আমাদের এই Demo-র JavaScript-এ সেভ করা হয় না। Login Supabase Auth পরিচালনা করবে।</p>
+ </section>
+ <a class="back-link" href="index.html">← Back to public demo</a>
+</main>
+<script src="supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="common.js"></script><script src="login.js"></script>
+</body></html>
