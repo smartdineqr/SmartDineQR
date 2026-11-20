@@ -3,7 +3,7 @@
 <body>
 <header class="top"><div class="top-in"><a class="brand" href="owner.html"><span class="brand-mark">S</span><span>SmartDine <b>QR</b><small>Owner • Table QR & Kitchen</small></span></a><a class="btn" href="owner.html">← Dashboard</a></div></header>
 <main class="wrap">
- <section class="hero"><div class="eyebrow" style="color:#d5f8ef">Owner workspace</div><h1 class="headline" id="restaurant-name">Tables & Kitchen</h1><p class="muted" style="color:#d5efe9">নতুন Table QR তৈরি করো, Demo Orders দেখো, Cash Received নিশ্চিত করো।</p><span id="trial-badge" class="badge">Checking subscription…</span></section>
+ <section class="hero"><div class="eyebrow" style="color:#d5f8ef">Owner workspace</div><h1 class="headline" id="restaurant-name">Tables & Kitchen</h1><p class="muted" style="color:#d5efe9">Table QR তৈরি করো, নতুন অর্ডার পরিচালনা করো এবং Cash Received নিশ্চিত করো।</p><span id="trial-badge" class="badge">Checking subscription…</span></section>
  <div id="message" class="notice" role="status">Login পরীক্ষা করা হচ্ছে…</div>
  <div id="content" hidden>
  <div class="grid two">
@@ -12,10 +12,10 @@
    <div id="table-list" class="top-space"></div>
  </section>
  <section class="panel"><h2>QR Preview</h2><div id="qr-empty" class="muted">একটি Table-এর “Show QR” চাপো।</div><div id="qr-view" hidden><p id="qr-title" style="font-weight:800"></p><div class="qrbox" id="qr-code"></div><p class="code-url" id="qr-link"></p><div class="buttons no-print"><button class="btn" id="copy-link" type="button">Copy link</button><button class="btn" id="print-qr" type="button">Print QR</button><a class="btn" id="open-link" target="_blank" rel="noopener noreferrer">Preview Menu</a></div></div>
- <p class="note">🧪 QR Link-এর যে কেউ অর্ডার করতে পারে; বাস্তব ব্যবহারের আগে Table Verification ও Anti-spam দরকার। QR Code-টি Public Token, নিরাপদ Login নয়।</p>
+ <p class="note">Security notice: QR links are public. Before public deployment, add table verification and stronger anti-spam controls.</p>
  </section></div>
- <section class="panel top-space"><div class="row between wrap-row"><div><h2>Kitchen & Orders</h2><p class="muted small">নতুন Demo Orders দেখা যাবে। Refresh অথবা অটো-রিফ্রেশ চালু আছে।</p></div><button id="refresh" class="btn" type="button">↻ Refresh</button></div><div id="orders-list"></div></section>
+ <section class="panel top-space"><div class="row between wrap-row"><div><h2>Kitchen & Orders</h2><p class="muted small">নতুন অর্ডার এখানে দেখা যাবে। স্বয়ংক্রিয় Refresh প্রতি ১৫ সেকেন্ডে।</p></div><button id="refresh" class="btn" type="button">↻ Refresh</button></div><div id="orders-list"></div></section>
  </div>
-</main><footer class="footer">SmartDine QR • Test orders only • No payment gateway enabled</footer>
+</main><footer class="footer">SmartDine QR • Tables, Orders & Cash Payments</footer>
 <script src="supabase-config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="common.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><script src="ops.js"></script>
 </body></html>

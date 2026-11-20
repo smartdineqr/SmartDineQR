@@ -4,7 +4,7 @@
  const { client,ready,notice,money } = window.sd;
  const token = new URLSearchParams(location.search).get('t') || '';
  const uuidPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
- let menu=[],cart=new Map(),currentCategory='All',enabled=false,busy=false,requestId=null;
+ let menu=[],cart=new Map(),currentCategory='All',enabled=false,busy=false,requestId=null,restaurantId='';
  const discountPrice=i=>Math.round((Number(i.price)*(100-Number(i.discount_pct))/100)*100)/100;
  const count=()=>Array.from(cart.values()).reduce((a,b)=>a+b,0);
  const total=()=>menu.reduce((a,i)=>a+(cart.get(i.id)||0)*discountPrice(i),0);
@@ -19,12 +19,24 @@
    const visible=menu.filter(i=>currentCategory==='All'||(i.category||'Other')===currentCategory);
    for(const item of visible){
      const outer=document.createElement('article');outer.className='food';
-     const pict=document.createElement('div');pict.className='food-emoji';pict.textContent=emoji(item.category);
+     let pict=document.createElement('div');pict.className='food-emoji';pict.textContent=emoji(item.category);
+     if(item.image_path && restaurantId && item.image_path.startsWith(restaurantId+'/')){
+       const publicImage=client.storage.from('smartdine-menu').getPublicUrl(item.image_path).data.publicUrl;
+       if(publicImage){
+         const fallback=pict;
+         const image=document.createElement('img');image.className='sd-customer-photo';image.src=publicImage;
+         image.alt=item.name;image.loading='lazy';image.decoding='async';
+         image.onerror=()=>{image.replaceWith(fallback);};
+         pict=image;
+       }
+     }
      const info=document.createElement('div');info.className='food-info';
      const name=document.createElement('h3');name.textContent=item.name;
      const category=document.createElement('div');category.className='muted small';category.textContent=item.category;
      const price=document.createElement('div');price.className='price';price.textContent=money(discountPrice(item));
-     info.append(name,category,price);
+     info.append(name,category);
+     if(item.description){const desc=document.createElement('p');desc.className='sd-customer-desc';desc.textContent=item.description;info.append(desc);}
+     info.append(price);
      if(Number(item.discount_pct)>0){const old=document.createElement('div');old.className='old';old.textContent=money(item.price)+' • '+item.discount_pct+'% OFF';info.append(old);}
      const btn=document.createElement('button');btn.className='btn primary';btn.type='button';btn.textContent='Add +';btn.disabled=!enabled;
      btn.onclick=()=>{cart.set(item.id,Math.min(10,(cart.get(item.id)||0)+1));requestId=null;renderCart();};info.append(btn);outer.append(pict,info);list.append(outer);
@@ -62,9 +74,9 @@
      cart=new Map();requestId=null;$('catalog').hidden=true;$('cart-panel').hidden=true;$('cartbar').hidden=true;
      $('order-id').textContent=String(data.order_id).slice(0,8).toUpperCase();
      $('order-total').textContent=money(data.total);$('confirmation').hidden=false;
-     notice('Demo order saved in the restaurant cloud database.','success');$('confirmation').scrollIntoView({behavior:'smooth'});
+     notice('Your order has been sent to the restaurant.','success');$('confirmation').scrollIntoView({behavior:'smooth'});
    }catch(err){notice('Order পাঠানো যায়নি: '+(err.message||'Unknown error'),'error');}
-   finally{busy=false;$('place-order').textContent='Place Demo Order';renderCart();}
+   finally{busy=false;$('place-order').textContent='Place Order';renderCart();}
  };
  if(!ready){notice('Database Connection নেই। Config পরীক্ষা করো।','error');return;}
  if(!uuidPattern.test(token)){notice('এই লিংকে বৈধ Table QR নেই। Restaurant Owner থেকে QR নিয়ে স্ক্যান করো।','warn');return;}
@@ -74,6 +86,7 @@
  if(!data){notice('এই QR Code টি পাওয়া যায়নি অথবা বন্ধ করা হয়েছে।','error');return;}
  $('intro').hidden=false;$('restaurant-name').textContent=data.name;$('restaurant-tagline').textContent=data.tagline||'Order from your table';
  $('table-number').textContent='Table '+data.table_number;
+ restaurantId=String(data.restaurant_id||'');
  enabled=!!data.ordering_enabled;
  menu=Array.isArray(data.items)?data.items:[];
  $('catalog').hidden=false;

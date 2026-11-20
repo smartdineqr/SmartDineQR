@@ -31,6 +31,7 @@
  const {data:{session}}=await client.auth.getSession();
  if(session && !isRecovery)location.replace('owner.html');
  if(isRecovery)changeMode('recovery');
+ else if(url.searchParams.get('signup')==='1')changeMode('signup');
  $('forgot-password').onclick=async()=>{
    const email=$('email').value.trim();if(!email){notice('Password reset link পেতে Email ID লেখো।','warn');return;}
    const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:new URL('login.html',location.href).href});

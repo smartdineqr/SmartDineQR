@@ -1,0 +1,16 @@
+/* Shared, lightweight menu photo styles for owner and QR customer menu */
+textarea{display:block;width:100%;margin-top:6px;padding:12px 13px;border:1px solid #ccd9de;border-radius:10px;background:#fff;color:#162e3b;font:inherit;resize:vertical;min-height:80px}
+textarea:focus-visible{outline:2px solid #087f6a;outline-offset:2px}
+.sd-menu-desc-field,.sd-menu-image-field{grid-column:1/-1}
+.sd-menu-image-field{border:1px dashed #a4cbc1;background:#f5fbf8;padding:15px;border-radius:14px}
+.sd-menu-image-field>label{margin:0 0 6px;font-size:14px;font-weight:800}
+.sd-menu-image-field input{background:white;font-size:13px}
+.sd-menu-image-field input::file-selector-button{background:#e3f5ed;color:#006f58;border:0;border-radius:8px;padding:9px 12px;font-weight:700;margin-right:12px}
+.sd-photo-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.sd-photo-preview{width:120px;height:100px;object-fit:cover;border:1px solid #c6d9d5;border-radius:12px;background:#edf5f3}
+.sd-owner-food-image{width:70px;height:70px;flex:none;object-fit:cover;border-radius:11px;background:#edf5f3}
+#menu-list .item-card>div:first-of-type{flex:1;min-width:0}
+#menu-list .item-card .actions{flex:none;margin-left:auto}
+.sd-customer-photo{width:86px;height:86px;flex-shrink:0;object-fit:cover;border-radius:14px;background:#eef6f3}
+.sd-customer-desc{font-size:12px;line-height:1.45;color:#637a78;margin:5px 0 7px}
+@media(max-width:470px){.sd-owner-food-image{width:76px;height:76px}#menu-list .item-card .actions{margin-left:0}.sd-customer-photo{width:78px;height:78px}}

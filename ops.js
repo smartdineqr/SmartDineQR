@@ -93,11 +93,11 @@
    actions.append(status);
    if(order.payment_state!=='paid'&&order.status!=='cancelled'){
      const pay=el('button','btn primary','Confirm cash received');
-     pay.type='button';pay.title='Only after actually receiving cash (demo only)';
+     pay.type='button';pay.title='Record only after cash has actually been received';
      pay.onclick=async()=>{if(!confirm('Only continue if CASH has really been received. This is NOT an online payment.'))return;
        pay.disabled=true;
        const {error}=await client.rpc('smartdine_confirm_cash',{p_order_id:order.id});
-       if(error)notice('Could not record cash: '+error.message,'error');else notice('Cash received recorded (manual)','success');await loadOrders();};
+       if(error)notice('Could not record cash: '+error.message,'error');else notice('Cash payment recorded','success');await loadOrders();};
      actions.append(pay);
    }
    card.append(head,description,date,actions);list.append(card);

@@ -1,27 +1,60 @@
 <!doctype html><html lang="bn"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0d1d2b"><title>Owner Dashboard | SmartDine QR</title>
-<link rel="stylesheet" href="portal.css"></head>
+<link rel="stylesheet" href="portal.css"><link rel="stylesheet" href="dashboard-v1.css"><link rel="stylesheet" href="menu-cloud.css"></head>
 <body class="owner-page">
-<header class="portal-bar"><a href="index.html" class="brand"><span class="brand-mark">S</span><span>SmartDine <strong>QR</strong><small>Owner portal</small></span></a><button id="logout" type="button" class="button ghost">Log out</button></header>
+<header class="portal-bar sd-topbar">
+ <a href="index.html" class="brand"><span class="brand-mark">S</span><span>SmartDine <strong>QR</strong><small>Restaurant Workspace</small></span></a>
+ <div class="sd-top-actions"><button type="button" id="sd-notify" class="sd-notify" aria-label="Show new orders" title="New orders"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg> <span id="sd-notify-count" hidden>0</span></button><button id="logout" type="button" class="button ghost">Log out</button></div>
+</header>
 <div class="portal-frame">
- <section class="welcome"><div><p class="eyebrow">Secure owner account</p><h1 id="restaurant-title">Restaurant Dashboard</h1><p id="account-label" class="muted">Loading…</p></div><span id="plan-badge" class="tag">Loading plan</span></section>
+ <section class="welcome sd-welcome"><div><p class="eyebrow">YOUR RESTAURANT WORKSPACE</p><h1 id="restaurant-title">Restaurant Dashboard</h1><p id="account-label" class="muted">Loading…</p></div><div class="sd-plan-info"><span id="plan-badge" class="tag">Loading plan</span><small id="sd-trial-days" class="muted" aria-live="polite"></small></div></section>
  <div id="message" class="message" role="status" hidden></div>
  <section id="loading" class="panel">Account পরীক্ষা করা হচ্ছে…</section>
  <section id="setup" class="panel" hidden><h2>নিজের রেস্টুরেন্ট তৈরি করো</h2><p class="muted">এই Account-এ প্রথমবারের জন্য নাম ও তথ্য লিখো। ৩০ দিনের Trial রেস্টুরেন্ট তৈরির দিন থেকে শুরু হবে।</p>
-  <form id="setup-form" class="form-grid"><label>Restaurant Name<input id="setup-name" required maxlength="120" placeholder="e.g. Royal Biryani"></label><label>Short Description<input id="setup-tagline" maxlength="180" placeholder="Fresh & delicious food"></label><button class="button primary" type="submit">Create my restaurant</button></form>
+  <form id="setup-form" class="form-grid"><label>Restaurant Name<input id="setup-name" required maxlength="120" placeholder="e.g. Royal Biryani"></label><label>Short Description<input id="setup-tagline" maxlength="180" placeholder="Fresh & delicious food"></label><button class="button primary" type="submit">Start 30-Day Free Trial</button></form>
  </section>
  <div id="portal" hidden>
-  <nav class="portal-nav" aria-label="Dashboard sections"><button class="selected" data-tab="overview">Overview</button><button data-tab="menu">Menu</button><button data-tab="orders">Orders</button><button data-tab="finance">Finance</button><button data-tab="settings">Settings</button><button data-tab="billing">Subscription</button></nav>
+  <div class="sd-workspace">
+ <aside class="sd-sidebar" aria-label="Restaurant navigation">
+  <div class="sd-sidebar-head"><strong>WORKSPACE</strong><small>Manage your restaurant</small></div>
+  <nav class="sd-nav" aria-label="Dashboard sections">
+   <button type="button" class="sd-nav-button selected" data-tab="overview" aria-current="page"><span class="sd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg></span><span>Home</span></button>
+   <button type="button" class="sd-nav-button" data-tab="orders"><span class="sd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span><span>Orders</span></button>
+   <button type="button" class="sd-nav-button" data-tab="kitchen"><span class="sd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14v7h12v-7M6 14a4 4 0 0 1-2-7 5 5 0 0 1 7-3 5 5 0 0 1 8 3 4 4 0 0 1-1 7M6 17h12"/></svg></span><span>Kitchen</span><small id="sd-nav-new" class="sd-count" hidden>0</small></button>
+   <button type="button" class="sd-nav-button" data-tab="menu"><span class="sd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6c-3-2-6-2-9-1v14c3-1 6-1 9 1 3-2 6-2 9-1V5c-3-1-6-1-9 1zM12 6v14"/></svg></span><span>Menu</span></button>
+   <button type="button" class="sd-nav-button" data-tab="more"><span class="sd-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span><span>More</span></button>
+  </nav>
+  <div class="sd-side-foot">SmartDine QR <span>Owner Workspace</span></div>
+ </aside>
+ <main class="sd-main" id="sd-main">
   <section id="tab-overview" class="tab-content">
-   <div class="stat-grid"><div class="stat"><small>Today's Sales (paid)</small><strong id="today-sales">₹0.00</strong></div><div class="stat"><small>This Month's Sales</small><strong id="month-sales">₹0.00</strong></div><div class="stat"><small>This Month's Orders</small><strong id="month-orders">0</strong></div><div class="stat"><small>Menu Items</small><strong id="menu-count">0</strong></div></div>
-   <div class="panel"><h2>Welcome to SmartDine QR</h2><p class="muted">Menu ও Restaurant Settings Supabase Cloud Database-এ সংরক্ষিত হবে। আবার Login করলে এখান থেকেই ফিরে পাবে।</p><p class="hint">⚠️ পুরোনো Public Demo-এর Local Storage Data এই Portal-এ স্বয়ংক্রিয়ভাবে আসবে না। Secure Customer Ordering ও Payment পরবর্তী ধাপে তৈরি হবে।</p></div>
+    <div class="sd-section-title"><div><p class="eyebrow">BUSINESS AT A GLANCE</p><h2>Overview</h2><p class="muted">Your restaurant performance, all in one place.</p></div><button type="button" class="button sd-refresh-btn" id="sd-home-refresh">↻ Refresh orders</button></div>
+    <div class="stat-grid sd-home-stats">
+      <div class="stat"><small>Today's Paid Sales</small><strong id="today-sales">₹0.00</strong><span class="sd-stat-caption">Confirmed payments</span></div>
+      <div class="stat"><small>This Month's Sales</small><strong id="month-sales">₹0.00</strong><span class="sd-stat-caption">Paid sales only</span></div>
+      <div class="stat"><small>This Month's Paid Orders</small><strong id="month-orders">0</strong><span class="sd-stat-caption">Paid orders</span></div>
+      <div class="stat"><small>Menu Items</small><strong id="menu-count">0</strong><span class="sd-stat-caption">Saved to cloud</span></div>
+    </div>
+    <div class="sd-home-grid">
+      <section class="panel sd-quick-actions"><div class="sd-panel-head"><div><p class="eyebrow">SHORTCUTS</p><h2>Quick Actions</h2></div></div>
+        <div class="sd-actions-grid"><button type="button" class="sd-action" data-go="menu"><span>＋</span><strong>Add Food</strong><small>Update your menu</small></button><button type="button" class="sd-action" data-go="tableqr"><span>▦</span><strong>Table QR</strong><small>Create QR codes</small></button><button type="button" class="sd-action" data-go="kitchen"><span>♨</span><strong>Kitchen</strong><small>Prepare orders</small></button><button type="button" class="sd-action" data-go="finance"><span>▥</span><strong>Analytics</strong><small>Sales & expenses</small></button></div>
+      </section>
+      <section class="panel sd-status-panel"><p class="eyebrow">ORDER STATUS</p><h2>Kitchen Activity</h2><div class="sd-status-line"><span>New orders</span><strong id="sd-home-new">0</strong></div><div class="sd-status-line"><span>Preparing / Ready</span><strong id="sd-home-inprogress">0</strong></div><p class="hint">Orders refresh approximately every 15 seconds while this page is open.</p><button class="button primary" type="button" data-go="kitchen">Open Kitchen</button></section>
+    </div>
+    <p class="hint">Sales update after payments are confirmed. Use Refresh to see the latest recorded totals.</p>
   </section>
   <section id="tab-menu" class="tab-content" hidden>
-    <div class="section-heading"><div><h2>Menu Manager</h2><p class="muted">নাম, দাম, Category, Cost, Discount ও Availability বদলাও।</p></div></div>
+    <div class="section-heading"><div><h2>Menu Manager</h2><p class="muted">খাবারের নাম, ছবি, বিবরণ, দাম, Category, Discount ও Availability Customize করো।</p></div></div>
     <div class="panel"><form id="menu-form"><input id="food-id" type="hidden"><div class="form-grid cols-two">
        <label>Food Name<input id="food-name" maxlength="120" required placeholder="Chicken Biryani"></label>
        <label>Category<input id="food-category" maxlength="50" required placeholder="Biryani"></label>
+       <label class="sd-menu-desc-field">Food Description (Optional)<textarea id="food-description" maxlength="300" rows="3" placeholder="Fresh, spicy, chef's special..."></textarea></label>
+       <div class="sd-menu-image-field"><label for="sd-food-photo">Food Photo (JPG / PNG / WebP)</label>
+         <input type="file" id="sd-food-photo" accept="image/jpeg,image/png,image/webp" aria-describedby="sd-photo-help">
+         <p id="sd-photo-help" class="hint">ফোনের Gallery থেকে ছবি দাও। ছবি ছোট করে Cloud-এ Save হবে (সর্বোচ্চ 2 MB)।</p>
+         <div class="sd-photo-controls"><img id="sd-photo-preview" class="sd-photo-preview" alt="Food photo preview" hidden><button id="sd-remove-photo" type="button" class="button small" hidden>Remove Photo</button></div>
+       </div>
        <label>Price (₹)<input id="food-price" type="number" min="0.01" max="9999999" step="0.01" required></label>
        <label>Food Cost (₹)<input id="food-cost" type="number" min="0" max="9999999" step="0.01" required value="0"></label>
        <label>Discount (%)<input id="food-discount" type="number" min="0" max="100" step="0.01" required value="0"></label>
@@ -29,18 +62,50 @@
      </div><div class="actions"><button id="save-food" type="submit" class="button primary">Save food</button><button id="cancel-edit" type="button" class="button">Clear</button></div></form></div>
     <div id="menu-list" class="list"></div>
   </section>
-  <section id="tab-orders" class="tab-content" hidden><div class="panel"><h2>Order History</h2><p class="muted">এখানে শুধুমাত্র এই রেস্টুরেন্টের Cloud Database-এর Orders দেখাবে।</p><div id="orders-list" class="list"></div><p class="hint">Public Demo-তে করা Orders এখনো Cloud Order History-তে সংযুক্ত নয়। Real Ordering Backend তৈরি হলে নতুন Orders এখানে আসবে।</p></div></section>
-  <section id="tab-finance" class="tab-content" hidden>
-   <div class="stat-grid"><div class="stat"><small>Paid Sales this month</small><strong id="finance-sales">₹0.00</strong></div><div class="stat"><small>Tracked Expenses</small><strong id="finance-expenses">₹0.00</strong></div><div class="stat"><small>Recorded Food Cost</small><strong id="finance-costs">₹0.00</strong></div><div class="stat"><small>Estimated Profit</small><strong id="finance-profit">—</strong></div></div>
-   <div class="panel" id="expenses-panel"><h2>Expense Tracking — Pro & Premium</h2><p class="muted">৩০ দিনের Trial চলাকালীন ব্যবহার করা যাবে।</p>
+  <section id="tab-orders" class="tab-content" hidden><div class="panel"><h2>Order History</h2><p class="muted">এখানে শুধুমাত্র এই রেস্টুরেন্টের Cloud Database-এর Orders দেখাবে।</p><div id="orders-list" class="list"></div><p class="hint">Order status পরিচালনা করতে Kitchen খুলুন।</p></div></section>
+  <section id="tab-kitchen" class="tab-content" hidden>
+    <div class="sd-section-title"><div><p class="eyebrow">RESTAURANT OPERATIONS</p><h2>Kitchen Display</h2><p class="muted">Manage new orders, preparation and cash confirmations.</p></div><button id="sd-kitchen-refresh" type="button" class="button">↻ Refresh</button></div>
+    <div class="sd-mini-stats"><div class="sd-mini-stat"><span>New</span><strong id="sd-k-new">0</strong></div><div class="sd-mini-stat"><span>Preparing</span><strong id="sd-k-preparing">0</strong></div><div class="sd-mini-stat"><span>Ready</span><strong id="sd-k-ready">0</strong></div></div>
+    <div id="sd-ops-message" class="message" hidden role="status"></div>
+    <div id="sd-kitchen-orders" class="sd-order-list"><div class="empty">Loading kitchen orders…</div></div>
+    <p class="hint">নগদ টাকা সত্যিই পাওয়ার পরেই Cash Received Confirm করো। Online Payment এখানে নেওয়া হয় না।</p>
+  </section>
+  <section id="tab-finance" class="tab-content" hidden><div class="sd-section-title"><div><p class="eyebrow">SALES & REPORTS</p><h2>Analytics</h2><p class="muted">Sales are based on paid orders. Expense Tracking and Profit are for Pro/Premium.</p></div></div><div class="panel sd-chart-panel"><h2>Last 7 Days • Paid Sales</h2><div class="sd-sales-chart" id="sd-sales-chart"><p class="muted">Loading chart…</p></div></div>
+   <p id="sd-stats-status" class="hint" aria-live="polite">Updating your sales totals…</p>
+   <div class="stat-grid"><div class="stat"><small>Paid Sales this month</small><strong id="finance-sales">₹0.00</strong></div><div class="stat sd-pro-only"><small>Tracked Expenses</small><strong id="finance-expenses">₹0.00</strong></div><div class="stat sd-pro-only"><small>Recorded Food Cost</small><strong id="finance-costs">₹0.00</strong></div><div class="stat sd-pro-only"><small>Estimated Profit</small><strong id="finance-profit">—</strong></div></div>
+   <div id="sd-analytics-upgrade" class="panel" hidden><h2>Unlock Expense Tracking & Profit</h2><p class="muted">This feature requires Pro/Premium or an eligible active free trial.</p><button type="button" class="button primary" data-go="billing">View Subscription</button></div><div class="panel" id="expenses-panel"><h2>Expense Tracking — Pro & Premium</h2><p class="muted">৩০ দিনের Trial চলাকালীন ব্যবহার করা যাবে।</p>
     <form id="expense-form" class="form-grid cols-two"><label>Expense Name<input id="expense-title" required maxlength="120" placeholder="Rent / Salary"></label><label>Amount (₹)<input id="expense-amount" required type="number" min="0.01" step="0.01"></label><button class="button primary" type="submit">Add expense</button></form><div id="expenses-list" class="list"></div>
    </div><p class="hint">আনুমানিক Profit = Paid Sales − recorded Food Costs − tracked Expenses। Tax, Refund, Gateway Fees এবং অন্যান্য বাদ পড়া খরচ থাকলে প্রকৃত Net Profit আলাদা হবে।</p>
   </section>
+  <section id="tab-more" class="tab-content" hidden>
+    <div class="sd-section-title"><div><p class="eyebrow">SETTINGS & TOOLS</p><h2>More</h2><p class="muted">Everything else you need to manage your restaurant.</p></div></div>
+    <div class="sd-more-grid">
+      <button type="button" data-go="tableqr" class="sd-more-item"><span class="sd-more-icon">▦</span><strong>Table QR Codes</strong><small>Create, view and share table menus</small></button>
+      <button type="button" data-go="finance" class="sd-more-item"><span class="sd-more-icon">▥</span><strong>Analytics</strong><small>Sales, expenses and estimated profit</small></button>
+      <button type="button" data-go="settings" class="sd-more-item"><span class="sd-more-icon">⚙</span><strong>Restaurant Settings</strong><small>Edit name and tagline</small></button>
+      <button type="button" data-go="billing" class="sd-more-item"><span class="sd-more-icon">◇</span><strong>Subscription</strong><small>Trial, plans and renewal info</small></button>
+      <a href="ops.html" class="sd-more-item"><span class="sd-more-icon">↗</span><strong>Full Operations Page</strong><small>Open the existing standalone view</small></a>
+    </div>
+  </section>
+  <section id="tab-tableqr" class="tab-content" hidden>
+    <div class="sd-section-title"><div><p class="eyebrow">CUSTOMER QR MENU</p><h2>Table QR Codes</h2><p class="muted">Give each restaurant table its own customer menu link.</p></div></div>
+    <div class="sd-tables-grid">
+      <div class="panel"><h2>Add a Table</h2><form id="sd-table-form" class="sd-table-form"><label>Table Number<input id="sd-table-number" required type="number" min="1" max="1000" placeholder="e.g. 5" inputmode="numeric"></label><button id="sd-table-add" class="button primary" type="submit">Create QR</button></form><div id="sd-tables-list" class="sd-tables-list"><div class="empty">Loading tables…</div></div></div>
+      <div class="panel"><h2>QR Preview</h2><p class="muted" id="sd-qr-empty">Choose “Show QR” next to a table.</p><div id="sd-qr-view" hidden><p id="sd-qr-title" class="sd-qr-title"></p><div id="sd-qr-canvas" class="sd-qr-canvas" aria-label="QR code"></div><p id="sd-qr-url" class="sd-qr-url"></p><div class="actions"><button id="sd-qr-copy" type="button" class="button">Copy Link</button><a id="sd-qr-open" class="button primary" target="_blank" rel="noopener noreferrer">Preview Menu</a></div></div></div>
+    </div>
+    <p class="hint">Security notice: QR links are publicly accessible. Keep them within your restaurant; additional verification and anti-spam protections are required before public deployment.</p>
+  </section>
   <section id="tab-settings" class="tab-content" hidden><div class="panel"><h2>Restaurant Settings</h2><form id="settings-form" class="form-grid"><label>Restaurant Name<input id="settings-name" maxlength="120" required></label><label>Tagline<input id="settings-tagline" maxlength="180"></label><button class="button primary" type="submit">Save details</button></form></div></section>
-  <section id="tab-billing" class="tab-content" hidden><div class="panel"><h2>Your Subscription</h2><div id="subscription-status"></div><div class="pricing"><article><h3>Basic</h3><strong>₹299/mo</strong><p>QR Ordering • Billing • Sales</p></article><article class="pro"><h3>Pro</h3><strong>₹599/mo</strong><p>Basic + Expenses • Profit • Offers</p></article><article><h3>Premium</h3><strong>₹999/mo</strong><p>Pro + Branding • Detailed Reports</p></article></div><p class="hint">Checkout এখনো যুক্ত করা হয়নি। Subscription Payment সফলভাবে যাচাই না হওয়া পর্যন্ত কোনো Plan স্বয়ংক্রিয়ভাবে Active করা হবে না।</p></div></section>
+  <section id="tab-billing" class="tab-content" hidden><div class="panel"><h2>Your Subscription</h2><div id="subscription-status"></div><div class="pricing"><article><h3>Basic</h3><strong>₹299/mo</strong><p>QR Ordering • Billing • Sales</p></article><article class="pro"><h3>Pro</h3><strong>₹599/mo</strong><p>Basic + Expenses • Profit • Offers</p></article><article><h3>Premium</h3><strong>₹999/mo</strong><p>Pro + Branding • Detailed Reports</p></article></div><p class="hint">Online subscription checkout is not available yet. No plan is charged or activated automatically.</p></div></section>
+ </main>
+</div>
  </div>
 </div>
 <script src="supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="common.js"></script><script src="owner.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="dashboard-v1.js"></script>
+<script src="stats-cloud.js"></script>
+<script src="menu-cloud.js"></script>
 </body></html>
