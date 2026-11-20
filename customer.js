@@ -61,6 +61,108 @@
    $('cart-total').textContent=money(total());$('place-order').disabled=busy||!n||!enabled;
  }
  function setQty(id,qty){if(qty<=0)cart.delete(id);else cart.set(id,Math.min(10,qty));requestId=null;renderCart();}
+
+ // My Order Status: keep the tracking proof only on this customer's device.
+ // The table QR alone never authorizes reading someone else's order.
+ const historyKey='smartdine-my-orders-v1:'+token;
+ const statusLabels={new:'Received',preparing:'Preparing',ready:'Ready',served:'Served',cancelled:'Cancelled'};
+ const paymentLabels={pending:'Payment pending',paid:'Paid',refunded:'Refunded'};
+ const MAX_HISTORY=8, DAYS_TO_KEEP=30;
+ let myOrders=[],statusCache=new Map(),statusBusy=false;
+ const validUUID=v=>typeof v==='string'&&uuidPattern.test(v);
+ function loadMyOrders(){
+   try {
+     const rows=JSON.parse(localStorage.getItem(historyKey)||'[]');
+     if(!Array.isArray(rows))return;
+     const cutoff=Date.now()-DAYS_TO_KEEP*86400000;
+     myOrders=rows.filter(x=>x&&validUUID(x.id)&&validUUID(x.key)&&Number.isFinite(x.time)&&x.time>cutoff && x.time<Date.now()+86400000).slice(0,MAX_HISTORY);
+   }catch{/* Status still works for orders created during this visit. */}
+ }
+ function persistMyOrders(){
+   try{localStorage.setItem(historyKey,JSON.stringify(myOrders));}catch{/* Storage may be unavailable in private browsing. */}
+ }
+ function rememberMyOrder(id,key){
+   if(!validUUID(id)||!validUUID(key))return;
+   myOrders=[{id,key,time:Date.now()},...myOrders.filter(x=>x.id!==id)].slice(0,MAX_HISTORY);
+   persistMyOrders();renderMyOrders();
+ }
+ function make(tag,cls,value){
+   const el=document.createElement(tag);
+   if(cls)el.className=cls;
+   if(value!==undefined)el.textContent=value;
+   return el;
+ }
+ function renderMyOrders(){
+   const list=$('my-orders-list');list.replaceChildren();
+   $('clear-my-orders').hidden=!myOrders.length;
+   if(!myOrders.length){
+     list.append(make('p','sd-no-orders','এখনো এই ডিভাইসে কোনো অর্ডারের রেকর্ড নেই। অর্ডার দেওয়ার পর এখানে Status দেখতে পাবে।'));
+     return;
+   }
+   for(const order of myOrders){
+     const data=statusCache.get(order.id);
+     const card=make('article','sd-track-card');
+     const top=make('div','row between wrap-row');
+     const shortId=order.id.slice(0,8).toUpperCase();
+     top.append(make('strong','sd-order-id','Order #'+shortId));
+     const badge=make('span','sd-order-badge',data?.status?(statusLabels[data.status]||'Processing'):'Loading…');
+     if(data?.status)badge.dataset.state=data.status;
+     top.append(badge);card.append(top);
+     if(data?.missing){
+       card.append(make('p','muted small','এই অর্ডারের তথ্য পাওয়া যাচ্ছে না। QR Code বা অর্ডারটি পরিবর্তিত হয়ে থাকতে পারে।'));
+     }else if(data?.error){
+       card.append(make('p','muted small','Status লোড করা যায়নি। Refresh করে আবার দেখো।'));
+     }else if(data?.status){
+       const line=make('p','sd-order-meta','Table '+data.table_number+' · '+money(data.total)+' · '+(paymentLabels[data.payment_state]||'Payment pending'));
+       card.append(line);
+       if(data.status==='cancelled'){
+         card.append(make('p','sd-cancelled','এই অর্ডারটি Cancelled হয়েছে। রেস্টুরেন্টে যোগাযোগ করো।'));
+       }else{
+         const stages=['new','preparing','ready','served'];const current=stages.indexOf(data.status);
+         const flow=make('ol','sd-status-steps');
+         for(let i=0;i<stages.length;i++){
+           const step=make('li',i<=current?'sd-done':'',statusLabels[stages[i]]);
+           if(i===current)step.setAttribute('aria-current','step');
+           flow.append(step);
+         }
+         card.append(flow);
+       }
+       if(Array.isArray(data.items)&&data.items.length){
+         const detail=make('p','muted small',data.items.map(x=>String(x.quantity)+' × '+String(x.name)).join(' • '));
+         card.append(detail);
+       }
+     }else card.append(make('p','muted small','রেস্টুরেন্ট থেকে Status আনা হচ্ছে…'));
+     list.append(card);
+   }
+ }
+ async function refreshMyOrders(){
+   if(statusBusy||!ready||!validUUID(token)||!myOrders.length)return;
+   statusBusy=true;$('refresh-my-orders').disabled=true;
+   try{
+     await Promise.all(myOrders.map(async order=>{
+       try{
+         const {data,error}=await client.rpc('smartdine_customer_order_status',{
+           p_token:token,p_order_id:order.id,p_request_key:order.key
+         });
+         if(error)throw error;
+         statusCache.set(order.id,data&&typeof data==='object'?data:{missing:true});
+       }catch{statusCache.set(order.id,{error:true});}
+     }));
+     renderMyOrders();
+   }finally{statusBusy=false;$('refresh-my-orders').disabled=false;}
+ }
+ $('refresh-my-orders').onclick=()=>void refreshMyOrders();
+ $('clear-my-orders').onclick=()=>{
+   if(!confirm('শুধু এই ফোনের My Orders History সরাবে? রেস্টুরেন্টের আসল Orders মুছবে না।'))return;
+   myOrders=[];statusCache.clear();persistMyOrders();renderMyOrders();
+ };
+ $('track-my-order').onclick=()=>{
+   void refreshMyOrders();$('my-orders').scrollIntoView({behavior:'smooth',block:'start'});
+ };
+ loadMyOrders();renderMyOrders();
+ window.setInterval(()=>{
+   if(document.visibilityState==='visible'&&!$('my-orders').hidden)void refreshMyOrders();
+ },30000);
  $('view-cart').onclick=()=>{$('cart-panel').hidden=false;$('cartbar').hidden=true;$('cart-panel').scrollIntoView({behavior:'smooth'});};
  $('new-order').onclick=()=>{$('confirmation').hidden=true;$('catalog').hidden=false;$('cart-panel').hidden=true;window.scrollTo({top:0,behavior:'smooth'});render();};
  $('place-order').onclick=async()=>{
@@ -71,10 +173,13 @@
      const items=Array.from(cart.entries()).map(([id,quantity])=>({id,quantity}));
      const {data,error}=await client.rpc('smartdine_submit_order',{p_token:token,p_items:items,p_request_id:requestId});
      if(error)throw error;
+     const trackingKey=requestId;
+     rememberMyOrder(String(data.order_id),trackingKey);
      cart=new Map();requestId=null;$('catalog').hidden=true;$('cart-panel').hidden=true;$('cartbar').hidden=true;
      $('order-id').textContent=String(data.order_id).slice(0,8).toUpperCase();
      $('order-total').textContent=money(data.total);$('confirmation').hidden=false;
      notice('Your order has been sent to the restaurant.','success');$('confirmation').scrollIntoView({behavior:'smooth'});
+     void refreshMyOrders();
    }catch(err){notice('Order পাঠানো যায়নি: '+(err.message||'Unknown error'),'error');}
    finally{busy=false;$('place-order').textContent='Place Order';renderCart();}
  };
@@ -90,6 +195,8 @@
  enabled=!!data.ordering_enabled;
  menu=Array.isArray(data.items)?data.items:[];
  $('catalog').hidden=false;
+ $('my-orders').hidden=false;
+ void refreshMyOrders();
  if(enabled){$('message').hidden=true;}else{notice('Restaurant-এর Ordering আপাতত বন্ধ। Menu দেখা যাবে, কিন্তু অর্ডার দেওয়া যাবে না।','warn');}
  render();
 })();

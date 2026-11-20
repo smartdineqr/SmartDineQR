@@ -1,0 +1,28 @@
+/* SmartDine QR | Customer My Order Status (additive, isolated styles) */
+.sd-top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.sd-track-link{color:#076b58;background:#edf8f3;border:1px solid #cce9e1;border-radius:99px;padding:8px 12px;text-decoration:none;font-size:13px;font-weight:800;white-space:nowrap}
+.sd-track-link:focus-visible{outline:3px solid #93dbca;outline-offset:2px}
+.sd-orders-heading h2{margin:3px 0}
+.sd-orders-heading p{margin:3px 0 10px}
+.sd-orders-footer{margin-top:12px;gap:9px}
+.sd-no-orders{border:1px dashed var(--edge);border-radius:14px;color:var(--muted);padding:16px;font-size:14px}
+.sd-track-card{padding:15px 0;border-top:1px solid var(--edge)}
+.sd-track-card:first-child{border-top:0}
+.sd-order-id{font-size:15px;overflow-wrap:anywhere}
+.sd-order-badge{display:inline-flex;background:#e5f3ef;color:#0d735f;padding:6px 9px;border-radius:12px;font-size:12px;font-weight:800}
+.sd-order-badge[data-state="preparing"]{background:#fff0d8;color:#885d0d}
+.sd-order-badge[data-state="ready"]{background:#def6e9;color:#0a6b49}
+.sd-order-badge[data-state="served"]{background:#e9f0f5;color:#3b5869}
+.sd-order-badge[data-state="cancelled"]{background:#ffe9e7;color:#962b30}
+.sd-order-meta{color:var(--muted);font-size:13px;margin:9px 0 14px}
+.sd-status-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:0 0 12px;padding:0;list-style:none}
+.sd-status-steps li{position:relative;padding:25px 2px 4px;text-align:center;color:#75858e;font-size:11px;line-height:1.25}
+.sd-status-steps li:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);height:17px;width:17px;background:#dfe9e7;border:2px solid #c8d8d4;border-radius:50%;z-index:1}
+.sd-status-steps li:not(:last-child):after{content:"";position:absolute;top:8px;left:50%;width:calc(100% + 5px);height:3px;background:#dce7e5}
+.sd-status-steps li.sd-done{color:#006f5a;font-weight:800}
+.sd-status-steps li.sd-done:before{background:#087f6b;border-color:#087f6b;box-shadow:inset 0 0 0 4px #fff}
+.sd-status-steps li.sd-done:not(:last-child):after{background:#087f6b}
+.sd-clear{color:#4b6570;border:0;background:none;text-decoration:underline;font-size:12px;padding:6px 0;cursor:pointer}
+.sd-cancelled{color:#a33836;font-size:13px;font-weight:650}
+@media(max-width:520px){.top-in{flex-wrap:wrap}.sd-top-actions{margin-left:auto}.sd-top-actions .badge{display:none}.sd-status-steps li{font-size:10px}.sd-track-card{padding:12px 0}}
+@media print{.sd-my-orders{display:none!important}}
