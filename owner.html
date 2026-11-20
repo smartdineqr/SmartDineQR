@@ -1,7 +1,7 @@
 <!doctype html><html lang="bn"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0d1d2b"><title>Owner Dashboard | SmartDine QR</title>
-<link rel="stylesheet" href="portal.css"><link rel="stylesheet" href="dashboard-v1.css"><link rel="stylesheet" href="menu-cloud.css"></head>
+<link rel="stylesheet" href="portal.css"><link rel="stylesheet" href="dashboard-v1.css"><link rel="stylesheet" href="menu-cloud.css"><link rel="stylesheet" href="billing-ui.css"></head>
 <body class="owner-page">
 <header class="portal-bar sd-topbar">
  <a href="index.html" class="brand"><span class="brand-mark">S</span><span>SmartDine <strong>QR</strong><small>Restaurant Workspace</small></span></a>
@@ -62,7 +62,10 @@
      </div><div class="actions"><button id="save-food" type="submit" class="button primary">Save food</button><button id="cancel-edit" type="button" class="button">Clear</button></div></form></div>
     <div id="menu-list" class="list"></div>
   </section>
-  <section id="tab-orders" class="tab-content" hidden><div class="panel"><h2>Order History</h2><p class="muted">এখানে শুধুমাত্র এই রেস্টুরেন্টের Cloud Database-এর Orders দেখাবে।</p><div id="orders-list" class="list"></div><p class="hint">Order status পরিচালনা করতে Kitchen খুলুন।</p></div></section>
+  <section id="tab-orders" class="tab-content" hidden>
+  <div class="panel"><h2>Order History</h2><p class="muted">এখানে শুধুমাত্র এই রেস্টুরেন্টের Cloud Database-এর Orders দেখাবে।</p><div id="orders-list" class="list"></div><p class="hint">Order status পরিচালনা করতে Kitchen খুলুন।</p></div>
+  <div class="panel sd-billing-panel"><div class="sd-billing-heading"><div><h2>Bills & Receipts</h2><p class="muted">নিজের রেস্টুরেন্টের Orders থেকে Bill দেখো, Print করো বা PDF হিসেবে Save করো।</p></div><button type="button" id="sd-billing-refresh" class="button">↻ Refresh bills</button></div><div id="sd-billing-list" aria-live="polite" class="list"><p class="muted">Loading bills…</p></div><p class="hint">Pending payment কখনো Paid দেখাবে না। এটি GST Tax Invoice নয়; Tax Setup পরে যুক্ত করতে হবে।</p></div>
+  </section>
   <section id="tab-kitchen" class="tab-content" hidden>
     <div class="sd-section-title"><div><p class="eyebrow">RESTAURANT OPERATIONS</p><h2>Kitchen Display</h2><p class="muted">Manage new orders, preparation and cash confirmations.</p></div><button id="sd-kitchen-refresh" type="button" class="button">↻ Refresh</button></div>
     <div class="sd-mini-stats"><div class="sd-mini-stat"><span>New</span><strong id="sd-k-new">0</strong></div><div class="sd-mini-stat"><span>Preparing</span><strong id="sd-k-preparing">0</strong></div><div class="sd-mini-stat"><span>Ready</span><strong id="sd-k-ready">0</strong></div></div>
@@ -108,4 +111,5 @@
 <script src="dashboard-v1.js"></script>
 <script src="stats-cloud.js"></script>
 <script src="menu-cloud.js"></script>
+<script src="billing-ui.js"></script>
 </body></html>

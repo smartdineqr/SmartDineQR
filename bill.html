@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#087f6a"><title>Order Bill | SmartDine QR</title>
+<link rel="stylesheet" href="bill.css">
+</head><body>
+<header class="pagebar no-print"><a class="back" href="owner.html#orders">← Back to Orders</a><strong>SmartDine QR · Billing</strong></header>
+<main class="bill-layout">
+ <div id="bill-message" class="bill-message" role="status">Loading your restaurant bill…</div>
+ <div id="bill-actions" class="bill-actions no-print" hidden>
+  <button id="bill-print" class="primary" type="button">Print / Save as PDF</button>
+  <span>On Android, choose <strong>Save as PDF</strong> in the print menu.</span>
+ </div>
+ <article class="receipt" id="bill-receipt" hidden aria-label="Restaurant bill">
+  <div class="receipt-top"><div><p class="eyebrow">SMARTDINE QR · RESTAURANT BILLING</p><h1 id="bill-restaurant">Restaurant</h1><p class="sub" id="bill-tagline"></p></div><div class="receipt-label"><strong id="bill-type">ORDER BILL</strong><span id="bill-payment-badge" class="state pending">UNPAID</span></div></div>
+  <div class="meta">
+   <div><small>ORDER REFERENCE</small><strong id="bill-reference"></strong></div>
+   <div><small>TABLE</small><strong id="bill-table"></strong></div>
+   <div><small>ORDER DATE</small><strong id="bill-created"></strong></div>
+   <div><small>ORDER STATUS</small><strong id="bill-order-status"></strong></div>
+  </div>
+  <table class="items"><thead><tr><th>Item</th><th class="right">Qty</th><th class="right">Price</th><th class="right">Amount</th></tr></thead><tbody id="bill-items"></tbody></table>
+  <div class="total-wrap"><div id="bill-adjustment-row" class="total-line" hidden><span>Order adjustments</span><span id="bill-adjustment"></span></div><div class="total-line grand"><span>Total amount</span><strong id="bill-total">₹0.00</strong></div></div>
+  <div class="payment-info"><p id="bill-payment-note"></p><p class="sub" id="bill-paid-at"></p></div>
+  <div class="receipt-footer"><span>Thank you for dining with us.</span><small>Generated from this restaurant's recorded order. No tax breakdown is provided; this is not a GST tax invoice.</small></div>
+ </article>
+</main>
+<script src="supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="common.js"></script><script src="bill.js"></script>
+</body></html>
